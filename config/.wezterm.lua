@@ -3,8 +3,10 @@ local config = wezterm.config_builder()
 
 config.automatically_reload_config = true
 config.use_ime = true
+config.ime_preedit_rendering = "Builtin"
+config.xim_im_name = 'fcitx'
 config.window_decorations = "NONE"
-config.integrated_title_button_style = "Gnome"
+--config.integrated_title_button_style = "Gnome"
 config.use_fancy_tab_bar = true
 config.show_tabs_in_tab_bar = true
 config.default_cursor_style = "SteadyBar"
