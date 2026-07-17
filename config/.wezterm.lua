@@ -5,11 +5,11 @@ config.automatically_reload_config = true
 config.use_ime = true
 config.ime_preedit_rendering = "Builtin"
 config.xim_im_name = 'fcitx'
-config.window_decorations = "NONE"
---config.integrated_title_button_style = "Gnome"
+config.window_decorations = "INTEGRATED_BUTTONS|RESIZE"
 config.use_fancy_tab_bar = true
 config.show_tabs_in_tab_bar = true
 config.default_cursor_style = "SteadyBar"
+config.default_prog = { 'C:\\Program Files\\Git\\bin\\bash.exe', '-i', '-l' }
 
 config.window_frame = {
   active_titlebar_bg = "#03181D",
@@ -58,6 +58,10 @@ config.font_size = 12.0
 
 -- カラースキーム
 config.color_scheme = 'Dark+'
+config.colors = {
+  selection_fg = '#1e1e1e',
+  selection_bg = 'rgba(255, 255, 255, 0.8)'
+}
 
 -- 透過
 config.window_background_opacity = 0.85
