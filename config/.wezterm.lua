@@ -10,6 +10,7 @@ config.use_fancy_tab_bar = true
 config.show_tabs_in_tab_bar = true
 config.default_cursor_style = "SteadyBar"
 config.default_prog = { 'C:\\Program Files\\Git\\bin\\bash.exe', '-i', '-l' }
+config.audible_bell = "Disabled"
 
 config.window_frame = {
   active_titlebar_bg = "#03181D",
