@@ -64,6 +64,8 @@ alias vpndown='sudo nmcli connection down "dred"'
 
 bindkey "^[[1;5C" forward-word
 bindkey "^[[1;5D" backward-word
+bindkey "^?" backward-delete-char
+
 
 bindkey "^[[3;5~" kill-word
 bindkey "^H" backward-kill-word
