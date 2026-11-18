@@ -1,8 +1,10 @@
 export PATH="$HOME/.local/bin:$PATH"
 export EDITOR=vim
 
-PATH=${NVM_DIR:-$HOME/.nvm}/default/bin:$PATH
-MANPATH=${NVM_DIR:-$HOME/.nvm}/default/share/man:$MANPATH
-export NODE_PATH=${NVM_DIR:-$HOME/.nvm}/default/lib/node_modules
-
-NODE_PATH=${NODE_PATH:A}
+_nvm_default=(${NVM_DIR:-$HOME/.nvm}/versions/node/*(Nn[-1]))
+if [[ -n $_nvm_default ]]; then
+  path=($_nvm_default/bin $path)
+  MANPATH=$_nvm_default/share/man:$MANPATH
+  export NODE_PATH=$_nvm_default/lib/node_modules
+fi
+unset _nvm_default
