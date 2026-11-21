@@ -4,7 +4,7 @@
 #   - それ以外 → 通常Docker。その uid/gid の "dev" ユーザーに降格して実行
 set -e
 
-: "${OWNER_REF:=/sandbox}"   # 所有者判定の基準にするマウント先
+: "${OWNER_REF:=/home/dev/sandbox}"   # 所有者判定の基準にするマウント先
 : "${DEV_USER:=dev}"
 
 # すでに非rootで起動されている（--user 指定など）ならそのまま
