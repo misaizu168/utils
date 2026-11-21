@@ -71,10 +71,10 @@ RUN curl --proto '=https' -fLsS https://rossmacarthur.github.io/install/crate.sh
 
 RUN curl -sS https://starship.rs/install.sh | sh -s -- --yes
 
-RUN mkdir ~/.config/sheldon -p
+RUN mkdir $HOME/.config/sheldon -p
 
-RUN cp utils/config/starship.toml ~/.config/
-RUN cp utils/config/sheldon/plugins.toml ~/.config/sheldon
+RUN cp utils/config/ubuntu/starship.toml ~/.config/
+RUN cp utils/config/ubuntu/sheldon/plugins.toml ~/.config/sheldon
 
 RUN mkdir -p ~/.config/tmux/plugins/catppuccin
 RUN git clone -b v2.3.0 https://github.com/catppuccin/tmux.git ~/.config/tmux/plugins/catppuccin/tmux
