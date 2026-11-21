@@ -59,8 +59,8 @@ RUN curl -LsSf https://astral.sh/uv/install.sh | sh
 RUN usermod -s /bin/zsh root
 
 # [変更] /root → $HOME (/home/dev)。~ も /home/dev に展開される
-RUN mkdir /home/dev/sandbox
-WORKDIR /home/dev/sandbox
+RUN mkdir /home/dev
+WORKDIR /home/dev
 RUN git clone https://github.com/misaizu168/utils.git
 RUN cp utils/config/ubuntu/.* $HOME 2>/dev/null || true
 RUN cp utils/config/docker/.zshrc $HOME

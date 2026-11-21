@@ -4,7 +4,7 @@ services:
     image: ghcr.io/misaizu168/misaizu-image:latest
     shm_size: "192g"
     volumes:
-      - .:/sandbox
+      - .:~/sandbox
       - ./uv-cache:/uv-cache
     working_dir: /sandbox
     stdin_open: true
