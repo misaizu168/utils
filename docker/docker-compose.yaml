@@ -6,7 +6,7 @@ services:
     volumes:
       - .:/home/dev/sandbox
       - ./uv-cache:/uv-cache
-    working_dir: /sandbox
+    working_dir: /home/dev/sandbox
     stdin_open: true
     tty: true
     deploy:

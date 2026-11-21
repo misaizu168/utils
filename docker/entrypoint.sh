@@ -1,6 +1,6 @@
 #!/bin/sh
 # 通常Docker / rootless Docker の両方で同じイメージを使うための entrypoint
-#   - /sandbox の所有者が uid 0 に見える → rootless。root のまま実行
+#   - /home/dev/sandbox の所有者が uid 0 に見える → rootless。root のまま実行
 #   - それ以外 → 通常Docker。その uid/gid の "dev" ユーザーに降格して実行
 set -e
 
@@ -19,11 +19,12 @@ if [ -d "$OWNER_REF" ]; then
   gid=$(stat -c %g "$OWNER_REF")
 fi
 
-# ディレクトリの所有者が違うときだけ chown -R（2回目以降の起動はスキップ）
+# ディレクトリの所有者が違うときだけ再帰的に chown（2回目以降の起動はスキップ）
+# マウントされた作業ディレクトリ（$OWNER_REF）の中には入らない
 fix_owner() {
   [ -d "$1" ] || return 0
   if [ "$(stat -c %u:%g "$1")" != "$uid:$gid" ]; then
-    chown -R "$uid:$gid" "$1"
+    find "$1" -path "$OWNER_REF" -prune -o -exec chown -h "$uid:$gid" {} +
   fi
 }
 
