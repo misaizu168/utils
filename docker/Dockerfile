@@ -1,7 +1,9 @@
-FROM nvidia/cuda:12.8.1-cudnn-devel-ubuntu24.04
+FROM nvidia/cuda:13.5.0-cudnn-devel-ubuntu26.04
 ENV DEBIAN_FRONTEND=noninteractive
 ENV TZ=Asia/Tokyo
-ENV PATH="/root/.local/bin:$PATH"
+ENV HOME=/home/dev
+ENV PATH="/home/dev/.local/bin:$PATH"
+ENV UV_CACHE_DIR=/uv-cache
 
 RUN apt update && apt upgrade -y && apt install -y \
     unzip \
@@ -47,14 +49,22 @@ RUN apt update && apt upgrade -y && apt install -y \
     fonts-noto-cjk \
     && rm -rf /var/lib/apt/lists/*
 
+# [追加] Ubuntu 24.04 以降のイメージにある uid 1000 の既定ユーザーを消す
+#        （ホストの uid 1000 と衝突して名前が "ubuntu" になるのを防ぐ）
+RUN userdel -r ubuntu 2>/dev/null || true
+RUN mkdir -p /home/dev /uv-cache
+
 RUN curl -LsSf https://astral.sh/uv/install.sh | sh
 
 RUN usermod -s /bin/zsh root
 
-WORKDIR /root
-RUN git clone https://github.com/Newspaper8459/utils.git
-RUN cp utils/config/.* /root 2>/dev/null || true
-RUN cp utils/docker/.zshrc /root
+# [変更] /root → $HOME (/home/dev)。~ も /home/dev に展開される
+RUN mkdir /home/dev/sandbox
+WORKDIR /home/dev/sandbox
+RUN git clone https://github.com/misaizu168/utils.git
+RUN cp utils/config/ubuntu/.* $HOME 2>/dev/null || true
+RUN cp utils/config/docker/.zshrc $HOME
+RUN cp utils/config/docker/.bashrc $HOME
 
 RUN curl --proto '=https' -fLsS https://rossmacarthur.github.io/install/crate.sh \
     | bash -s -- --repo rossmacarthur/sheldon --to ~/.local/bin
@@ -71,10 +81,9 @@ RUN git clone -b v2.3.0 https://github.com/catppuccin/tmux.git ~/.config/tmux/pl
 RUN git clone https://github.com/tmux-plugins/tmux-prefix-highlight ~/.config/tmux/plugins/tmux-prefix-highlight
 RUN git clone https://github.com/tmux-plugins/tmux-cpu ~/.config/tmux/plugins/tmux-cpu
 
+# [追加] entrypoint（USER は書かない）
+COPY --chmod=755 entrypoint.sh /usr/local/bin/entrypoint.sh
+
 SHELL ["/bin/zsh", "-c"]
+ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
 CMD ["/bin/zsh"]
-
-# RUN echo 'export TERM=xterm-256color' >> /root/.bashrc && \
-#     echo 'alias ls="ls --color=auto"' >> /root/.bashrc && \
-#     echo 'export PS1="\\[\\e[1;32m\\]\\u@\\h\\[\\e[0m\\]:\\[\\e[1;36m\\]\\w\\[\\e[0m\\]\\$ "' >> /root/.bashrc
-
