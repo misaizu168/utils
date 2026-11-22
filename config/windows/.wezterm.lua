@@ -30,7 +30,14 @@ config.skip_close_confirmation_for_processes_named = {
   'cmd.exe',
   'pwsh.exe',
   'powershell.exe',
+  'wsl.exe',
+  'wslhost.exe',
+  'ssh',
 }
+
+wezterm.on('mux-is-process-stateful', function(proc)
+  return false
+end)
 
 config.window_frame = {
   active_titlebar_bg = "#03181D",
